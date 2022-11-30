@@ -91,9 +91,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import {Menu, ArrowDown} from '@element-plus/icons-vue'
-import { useTabStore } from "../../stores/tab";
+import { useTabStore } from "@/stores/tab";
 
 const tabStore = useTabStore()
 

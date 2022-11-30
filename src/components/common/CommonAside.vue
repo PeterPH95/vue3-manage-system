@@ -36,7 +36,7 @@
 
 <script lang='ts' setup>
   import { HomeFilled, Avatar, Menu, Guide, Apple, Orange } from '@element-plus/icons-vue'
-  import { useTabStore } from "../../stores/tab"
+  import { useTabStore } from "@/stores/tab"
 
   const tabStore = useTabStore()
 
