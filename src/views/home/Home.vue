@@ -35,7 +35,9 @@
       <!-- 右上 -->
       <MyCard :countData="countData" />
       <!-- 右中 -->
+      <el-card shadow="hover" class="card3" ref="card3">
 
+      </el-card>
       <!-- 右下 -->
 
     </el-col>
@@ -45,38 +47,35 @@
 <script lang="ts" setup>
 import type { TableData, CountData } from "@/interface/index";
 import MyCard from "@/components/MyCard.vue";
-import { getData } from "@/api/index"
-import { onMounted, ref } from "vue";
+import { getCurrentInstance, markRaw, onMounted, reactive, ref } from "vue";
 
-let tableData = ref([]),
-  countData: Array<CountData>,
-  orderData: object,
-  userData: object[],
-  pieData: object[]
+// 类似于 vue2 中的 this
+const { proxy } = getCurrentInstance() as any
+
+let tableData: TableData[] | any = ref([])
+let countData: Array<CountData> | any = ref([])
+let orderData: object
+let userData: object[]
+let pieData: object[]
 
 // 静态图片资源打包
-function getImageUrl(name: string):string {
+function getImageUrl(name: string): string {
   const imgUrl = new URL(`../../assets/images/${name}.png`, import.meta.url).href
   return imgUrl;
 }
 
 // 获取数据
-let getMydata = () => {
-  getData().then(({ data }) => {
-    if (data.code === 20000) {
-      let mydata = data.data
-      tableData.value = mydata.tableData
-    }
-  }).catch(err => {
-    console.log(err);
-  })
+const getMydata = async () => {
+  let res = await proxy.$api.getData()
+  tableData.value = res.tableData
+  countData.value = res.countData
 }
 
+console.log(countData);
+
 onMounted(() => {
-  console.log(123);
   getMydata()
 })
-
 
 </script>
 

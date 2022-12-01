@@ -1,9 +1,10 @@
 <template>
   <div class="order-form">
-    <el-card shadow="hover" v-for="(item, key) in countData" :key="key">
+    <el-card shadow="hover" v-for="item in countData" :key="item.name">
       <el-icon :style="{ backgroundColor: `${item.color}` }" :size="24" color="#fff">
-        <!-- 动态组件 -->
-        <component :is="item.component"></component>
+        <!-- 动态组件:报错未解决 -->
+        <!-- <component :is="item.component"></component> -->
+        <SuccessFilled />
       </el-icon>
       <div class="detail">
         <p class="price">￥&nbsp;{{ item.value }}</p>
@@ -15,6 +16,7 @@
 
 <script lang="ts" setup>
 import type { CountData } from "@/interface/index";
+import { SuccessFilled } from '@element-plus/icons-vue'
 
 const props = defineProps({
   countData: Array<CountData>

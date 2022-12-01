@@ -20,7 +20,7 @@ export default {
     }
 
     return {
-      code: 20000,
+      code: 200,
       data: {
         // 表格
         tableData: [

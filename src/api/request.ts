@@ -1,15 +1,29 @@
 import axios from 'axios'
+import config from '../config'
+import { ElMessage } from "element-plus"
+
+const NETWORK_ERROR = '网络请求异常，请稍后重试...'
+
+// 定义请求参数的数据类型
+type Options = {
+  url: string,
+  method: string,
+  data: object,
+  mock?: boolean,
+  params?: object
+}
+
 
 // 创建实例
-const http = axios.create({
-  baseURL: '/api',
+const service = axios.create({
+  baseURL: config.baseApi,
   timeout: 3000
 })
 
 
 // 拦截器配置
 // 添加请求拦截器
-http.interceptors.request.use(function (config) {
+service.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   return config;
 }, function (error) {
@@ -18,12 +32,42 @@ http.interceptors.request.use(function (config) {
 });
 
 // 添加响应拦截器
-http.interceptors.response.use(function (response) {
+service.interceptors.response.use(function (res) {
   // 对响应数据做点什么
-  return response;
+  const {code, data} = res.data
+  if (code == 200) {
+    return data
+  }else {
+    // ElMessage.error(NETWORK_ERROR)
+    return Promise.reject(NETWORK_ERROR)
+  }
 }, function (error) {
   // 对响应错误做点什么
   return Promise.reject(error);
 });
 
-export default http;
+
+// 封装的核心函数
+function request(options:Options) {
+  options.method = options.method || 'get'
+  if (options.method.toLowerCase() == 'get') {
+    options.params = options.data
+  }
+  // 处理mock
+  let isMock = config.mock
+  // 判断某个接口是否用 mock
+  if (options.mock !== undefined) {
+    isMock = options.mock
+  }
+  // 线上环境默认设置
+  if (config.env === 'prod') {
+    service.defaults.baseURL = config.baseApi
+  }else {
+    service.defaults.baseURL = isMock ? config.mockApi : config.baseApi
+  }
+
+  return service(options)
+}
+
+
+export default request;
