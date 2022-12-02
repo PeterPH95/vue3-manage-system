@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { CountData } from "@/interface/index";
+import type { CountData } from "@/interface/dataType";
 import { SuccessFilled, Star, Goods } from '@element-plus/icons-vue'
 
 defineProps({

@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { TableData, CountData, UserData } from "@/interface/index";
+import type { TableData, CountData, UserData } from "@/interface/dataType";
 import MyCard from "@/components/MyCard.vue";
 import { getCurrentInstance, markRaw, onBeforeMount, onMounted, reactive, ref, toRaw } from "vue";
 import * as echarts from "echarts";
@@ -67,6 +67,7 @@ type ECOption = echarts.ComposeOption<
 // 类似于 vue2 中的 this
 const { proxy } = getCurrentInstance() as any
 
+// 由于template中需要拿到下面的数据，因此需要提前定义
 let tableData: TableData[] | any = reactive([])
 let countData: CountData[] | any = reactive([])
 
@@ -199,12 +200,10 @@ const getPieData = async () => {
   PieChart.setOption(pieOptions)
 }
 
-onBeforeMount(() => {
-  getTableData()
-})
 
 // 发送请求
 onMounted(() => {
+  getTableData()
   getCountData()
   getOrderData()
   getUserData()
