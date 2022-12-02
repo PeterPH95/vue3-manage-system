@@ -10,6 +10,12 @@ export interface TableData {
 export interface CountData {
   name: string;
   value: number;
-  component: object;
+  component: 'SuccessFilled' | 'Goods' | 'Star';
   color: string;
+}
+
+export interface UserData {
+  date: string;
+  new: number;
+  active: number;
 }

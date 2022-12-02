@@ -4,10 +4,46 @@
 import request from './request'
 
 export default {
-  // 全部数据获取
-  getData(params: object){
+  // 表格数据获取
+  getTableData(params: object){
     return request({
-      url: '/home/getData',
+      url: '/home/getTableData',
+      method: 'get',
+      data: params,
+      mock: true
+    })
+  },
+  // 订单数据
+  getCountData(params: object){
+    return request({
+      url: '/home/getCountData',
+      method: 'get',
+      data: params,
+      mock: true
+    })
+  },
+  // 折线数据
+  getOrderData(params: object){
+    return request({
+      url: '/home/getOrderData',
+      method: 'get',
+      data: params,
+      mock: true
+    })
+  },
+  // 柱图
+  getUserData(params: object){
+    return request({
+      url: '/home/getUserData',
+      method: 'get',
+      data: params,
+      mock: true
+    })
+  },
+  // 饼图
+  getPieData(params: object){
+    return request({
+      url: '/home/getPieData',
       method: 'get',
       data: params,
       mock: true

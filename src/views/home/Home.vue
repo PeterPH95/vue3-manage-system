@@ -35,28 +35,40 @@
       <!-- 右上 -->
       <MyCard :countData="countData" />
       <!-- 右中 -->
-      <el-card shadow="hover" class="card3" ref="card3">
-
+      <el-card shadow="hover" style="height: 270px;">
+        <div ref="echarts1" style="height: 270px"></div>
       </el-card>
       <!-- 右下 -->
-
+      <div class="r-bottom">
+        <el-card shadow="hover">
+          <div ref="echarts2" style="height: 280px;"></div>
+        </el-card>
+        <el-card shadow="hover">
+          <div ref="echarts3" style="height: 280px;"></div>
+        </el-card>
+      </div>
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts" setup>
-import type { TableData, CountData } from "@/interface/index";
+import type { TableData, CountData, UserData } from "@/interface/index";
 import MyCard from "@/components/MyCard.vue";
-import { getCurrentInstance, markRaw, onMounted, reactive, ref } from "vue";
+import { getCurrentInstance, markRaw, onBeforeMount, onMounted, reactive, ref, toRaw } from "vue";
+import * as echarts from "echarts";
+import type { BarSeriesOption, LineSeriesOption, PieSeriesOption } from "echarts";
+
+type ECOption = echarts.ComposeOption<
+  | BarSeriesOption
+  | LineSeriesOption
+  | PieSeriesOption
+>;
 
 // 类似于 vue2 中的 this
 const { proxy } = getCurrentInstance() as any
 
-let tableData: TableData[] | any = ref([])
-let countData: Array<CountData> | any = ref([])
-let orderData: object
-let userData: object[]
-let pieData: object[]
+let tableData: TableData[] | any = reactive([])
+let countData: CountData[] | any = reactive([])
 
 // 静态图片资源打包
 function getImageUrl(name: string): string {
@@ -64,17 +76,139 @@ function getImageUrl(name: string): string {
   return imgUrl;
 }
 
-// 获取数据
-const getMydata = async () => {
-  let res = await proxy.$api.getData()
-  tableData.value = res.tableData
-  countData.value = res.countData
+// 获取表格数据
+const getTableData = async () => {
+  const res = await proxy.$api.getTableData()
+  // 下面的这个直接赋值有误，无法触发响应式
+  // tableData = res
+  tableData.push(...res)
+  tableData = toRaw(tableData)
+}
+// 获取订单数据
+const getCountData = async () => {
+  const result = await proxy.$api.getCountData()
+  countData.push(...result)
 }
 
-console.log(countData);
+// echarts1 折线图配置
+const getOrderData = async () => {
+  let orderData = await proxy.$api.getOrderData()
 
+  const keyArray: string[] = Object.keys(orderData.data[0])
+  const serie: LineSeriesOption[] = []
+  keyArray.forEach(key => {
+    serie.push({
+      name: key,
+      data: orderData.data.map((item: { [x: string]: any; }) => item[key]),
+      type: 'line'
+    })
+  })
+
+  let orderOptions: ECOption = {
+    legend: {},
+    xAxis: {
+      data: orderData.date
+    },
+    yAxis: {},
+    series: serie
+  }
+
+  let OrderChart = echarts.init(proxy.$refs['echarts1'])
+  OrderChart.setOption(orderOptions)
+}
+
+// echarts2 柱图配置
+const getUserData = async () => {
+  const userData: UserData[] | any = await proxy.$api.getUserData()
+
+  const userOptions: ECOption = {
+    legend: {
+      textStyle: {
+        color: "#333",
+      },
+    },
+    grid: {},
+    tooltip: {
+      trigger: "axis",
+    },
+    xAxis: {
+      type: "category",
+      data: userData.map((item: { date: any; }) => item.date),
+    },
+    yAxis: {},
+    color: ["#2ec7c9", "#b6a2de"],
+    series: [
+      {
+        name: "新增用户",
+        data: userData.map((item: { new: any; }) => item.new),
+        type: "bar",
+      },
+      {
+        name: "活跃用户",
+        data: userData.map((item: { active: any; }) => item.active),
+        type: "bar",
+      },
+    ],
+  };
+
+  let UserChart = echarts.init(proxy.$refs['echarts2'])
+  UserChart.setOption(userOptions)
+}
+
+// echarts3 饼图配置
+const getPieData = async () => {
+  const pieData: object[] = await proxy.$api.getPieData()
+
+  const pieOptions: ECOption = {
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      top: '2%',
+    },
+    series: [
+      {
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: '40',
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: pieData
+      }
+    ]
+  }
+
+  let PieChart = echarts.init(proxy.$refs['echarts3'])
+  PieChart.setOption(pieOptions)
+}
+
+onBeforeMount(() => {
+  getTableData()
+})
+
+// 发送请求
 onMounted(() => {
-  getMydata()
+  getCountData()
+  getOrderData()
+  getUserData()
+  getPieData()
 })
 
 </script>
@@ -134,8 +268,19 @@ onMounted(() => {
   }
 
   .right {
-    padding: 0 10px;
+    padding: 0 20px;
     // 订单
+
+    .r-bottom {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      .el-card {
+        height: 310px;
+        width: 49%;
+      }
+    }
   }
 
 }
