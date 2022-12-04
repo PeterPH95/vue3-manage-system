@@ -1,6 +1,6 @@
-import axios from 'axios'
-import config from '../config'
-import { ElMessage } from "element-plus"
+import axios from 'axios';
+import config from '../config';
+import Cookies from 'js-cookie';
 
 const NETWORK_ERROR = '网络请求异常，请稍后重试...'
 
@@ -23,8 +23,12 @@ const service = axios.create({
 
 // 拦截器配置
 // 添加请求拦截器
-service.interceptors.request.use(function (config) {
+service.interceptors.request.use(function (config:any) {
   // 在发送请求之前做些什么
+  let token = Cookies.get('token')
+  if (token) {
+    config.headers.Authorization = token
+  }
   return config;
 }, function (error) {
   // 对请求错误做些什么

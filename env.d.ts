@@ -6,3 +6,6 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+ 
+// 解决 js-cookie 导入报错
+declare module 'js-cookie';

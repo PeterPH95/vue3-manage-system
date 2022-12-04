@@ -4,7 +4,7 @@
 import request from './request'
 
 export default {
-  // 表格数据获取
+  /* 表格数据获取 */ 
   getTableData(params: object){
     return request({
       url: '/home/getTableData',
@@ -45,6 +45,16 @@ export default {
     return request({
       url: '/home/getPieData',
       method: 'get',
+      data: params,
+      mock: true
+    })
+  },
+
+  /* 获取菜单 */ 
+  getMenu(params: object){
+    return request({
+      url: '/permission/getMenu',
+      method: 'post',
       data: params,
       mock: true
     })

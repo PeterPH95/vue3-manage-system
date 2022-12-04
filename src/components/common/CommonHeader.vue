@@ -74,14 +74,14 @@
       </div>
       <!-- 用户信息 -->
       <div class="user">
-        <el-dropdown>
+        <el-dropdown @command="handleExit">
           <span class="el-dropdown-link">
             <img :src="getImageUrl('user')" alt="头像" />
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item>退出</el-dropdown-item>
+              <el-dropdown-item command="a">个人信息</el-dropdown-item>
+              <el-dropdown-item command="b">退出</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -93,7 +93,10 @@
 <script lang="ts" setup>
 import {Menu, ArrowDown} from '@element-plus/icons-vue'
 import { useTabStore } from "@/stores/tab";
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie';
 
+const router = useRouter();
 const tabStore = useTabStore()
 
 // 切换背景色
@@ -119,6 +122,16 @@ function getImageUrl(name:string) {
 const handleCommand = (command: string | number | object) => {
   console.log(`click on item ${command}`);
 };
+
+const handleExit = (command: string | number | object) => {
+  if (command == "b") {
+    Cookies.remove('token');
+    Cookies.remove('menu');
+    router.push('/login');
+  }else {
+    console.log('个人信息展示');
+  }
+}
 </script>
 
 <style lang="less" scoped>

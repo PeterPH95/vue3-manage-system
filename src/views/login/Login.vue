@@ -19,10 +19,15 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { getCurrentInstance, reactive, ref } from 'vue';
+import type { FormInstance, FormRules } from 'element-plus';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie';
 
-const ruleFormRef = ref<FormInstance>()
+const {proxy} = getCurrentInstance() as any;
+const router = useRouter();
+
+const ruleFormRef = ref<FormInstance>();
 
 const ruleForm = reactive({
   username: '',
@@ -38,14 +43,23 @@ const rules = reactive<FormRules>({
   ],
 })
 
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
+const getMenu = async (parmas:any) => { 
+  let respose = await proxy.$api.getMenu(parmas);
+  console.log(respose.message);
+  Cookies.set("menu", JSON.stringify(respose.menu));
+  Cookies.set("token", respose.token);
+  router.push({name: 'home'})
+}
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      // 保存当前角色menu信息和token
+      getMenu(ruleForm);
     } else {
-      console.log('error submit!')
-      return false
+      console.log('error submit!');
+      return false;
     }
   })
 }

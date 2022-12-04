@@ -9,6 +9,8 @@ import api from "./api/index";
 
 const app = createApp(App)
 
+
+
 // 全局挂载api
 app.config.globalProperties.$api = api
 app.use(createPinia())
