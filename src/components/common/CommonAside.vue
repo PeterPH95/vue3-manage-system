@@ -3,12 +3,10 @@
     default-active="1"
     class="el-menu-vertical-demo"
     :collapse="tabStore.isCollapse"
-    @open="handleOpen"
-    @close="handleClose"
   >
     <!-- 标题 -->
     <h1>{{ tabStore.isCollapse ? '后台':'后台管理系统'}}</h1>
-    <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.label">
+    <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.label"  @click="clickMenu(item)">
       <el-icon>
         <component :is="components[item.component]"></component>
       </el-icon>
@@ -24,7 +22,7 @@
         <span>{{item.label}}</span>
       </template>
 			<!-- 子菜单 -->
-        <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.label">
+        <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.label"  @click="clickMenu(subItem)">
 					<el-icon>
             <component :is="components[item.component]"></component>
           </el-icon>
@@ -39,7 +37,8 @@ import { HomeFilled, Avatar, Menu, Guide, Apple, Orange } from '@element-plus/ic
 import { useTabStore } from "@/stores/tab";
 import { ref, onBeforeMount } from 'vue';
 import Cookies from 'js-cookie';
-import type { Menu as MenuType } from '@/interface/routeType'
+import type { Menu as MenuType } from '@/interface/routeType';
+import { useRouter } from 'vue-router';
 
 const components = {
   'HomeFilled':HomeFilled,
@@ -51,6 +50,7 @@ const components = {
 }
 
 const tabStore = useTabStore();
+const router = useRouter();
 
 const menuList: MenuType[] | any = ref([])
 
@@ -62,11 +62,9 @@ const hasChildren = function(): MenuType[] {
   return menuList.value.filter((item: { children: any; }) => item.children);
 }
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log('open', key, keyPath);
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+const clickMenu = function(parmas: MenuType): void {
+  // console.log(parmas);
+  router.push(parmas.path);
 }
 
 const getMenuList = () => {

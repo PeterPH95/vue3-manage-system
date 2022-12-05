@@ -1,16 +1,10 @@
 import Mock from 'mockjs'
-import type { Menu } from '@/interface/routeType'
-
-interface MenuResponse {
-  code: number
-  data: { message: string, menu?: Menu[], token?: string }
-}
 
 export default {
   // 获取菜单导航
-  getMenu: function (config: { url: string, methods: string, body: string }): MenuResponse {
+  getMenu: function (config: { url: string, methods: string, body: string }) {
     const { username, password } = JSON.parse(config.body)
-    if (username.toLowerCase() === 'admin') {
+    if (username.toLowerCase() === 'admin' && password == 123456) {
       return {
         code: 200,
         data: {
@@ -25,14 +19,14 @@ export default {
             path: '/mall',
             name: 'mall',
             label: '商品管理',
-            component: 'Avatar',
+            component: 'Menu',
             url: 'Mall.vue'
           },
           {
             path: '/user',
             name: 'user',
             label: '用户管理',
-            component: 'Menu',
+            component: 'Avatar',
             url: 'User.vue'
           },
           {
@@ -60,7 +54,7 @@ export default {
           message: '管理员路由信息获取成功'
         }
       }
-    } else if (username !== '') {
+    } else if (username.toLowerCase() === 'user'  && password == 123456) {
       return {
         code: 200,
         data: {
@@ -75,14 +69,14 @@ export default {
             path: '/mall',
             name: 'mall',
             label: '商品管理',
-            component: 'Avatar',
+            component: 'Menu',
             url: 'Mall.vue'
           },
           {
             path: '/user',
             name: 'user',
             label: '用户管理',
-            component: 'Menu',
+            component: 'Avatar',
             url: 'User.vue'
           }
           ],

@@ -4,13 +4,13 @@
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" class="demo-ruleForm">
         <h2 class="title">系统登录</h2>
         <el-form-item label="账号" prop="username">
-          <el-input type="text" v-model="ruleForm.username" autocomplete="off" />
+          <el-input type="text" v-model="ruleForm.username" autocomplete="off" placeholder="用户名：admin / user" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
+          <el-input v-model="ruleForm.password" type="password" autocomplete="off" placeholder="密码：123456" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
+          <el-button type="primary" @click="login(ruleFormRef)" :loading="loading">登录</el-button>
           <el-button @click="resetForm(ruleFormRef)">重置</el-button>
         </el-form-item>
       </el-form>
@@ -28,30 +28,25 @@ const {proxy} = getCurrentInstance() as any;
 const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>();
+const loading = ref(false);
 
-const ruleForm = reactive({
-  username: '',
-  password: ''
-})
+const ruleForm = reactive({ username: '', password: ''});
 
 const rules = reactive<FormRules>({
-  username: [
-    { required: true, trigger: 'blur', message: '请输入用户名' },
-  ],
-  password: [
-    { required: true, trigger: 'blur', message: '请输入密码' }
-  ],
-})
+  username: [ { required: true, trigger: 'blur', message: '请输入用户名' }],
+  password: [ { required: true, trigger: 'blur', message: '请输入密码' } ]
+});
 
 const getMenu = async (parmas:any) => { 
   let respose = await proxy.$api.getMenu(parmas);
   console.log(respose.message);
   Cookies.set("menu", JSON.stringify(respose.menu));
   Cookies.set("token", respose.token);
+  // 动态路由添加时机
   router.push({name: 'home'})
 }
 
-const submitForm = async (formEl: FormInstance | undefined) => {
+const login = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid) => {
     if (valid) {
