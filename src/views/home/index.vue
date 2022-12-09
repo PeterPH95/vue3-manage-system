@@ -77,24 +77,10 @@ function getImageUrl(name: string): string {
   return imgUrl;
 }
 
-// 获取表格数据
-const getTableData = async () => {
-  const res = await proxy.$api.getTableData()
-  // 下面的这个直接赋值有误，无法触发响应式
-  // tableData = res
-  tableData.push(...res)
-  tableData = toRaw(tableData)
-}
-// 获取订单数据
-const getCountData = async () => {
-  const result = await proxy.$api.getCountData()
-  countData.push(...result)
-}
-
 // echarts1 折线图配置
-const getOrderData = async () => {
-  let orderData = await proxy.$api.getOrderData()
-
+const renderOrderData = (orderData: any) => {
+  console.log(orderData);
+  
   const keyArray: string[] = Object.keys(orderData.data[0])
   const serie: LineSeriesOption[] = []
   keyArray.forEach(key => {
@@ -119,9 +105,7 @@ const getOrderData = async () => {
 }
 
 // echarts2 柱图配置
-const getUserData = async () => {
-  const userData: UserData[] | any = await proxy.$api.getUserData()
-
+const renderUserData =(userData: any) => {
   const userOptions: ECOption = {
     legend: {
       textStyle: {
@@ -157,9 +141,7 @@ const getUserData = async () => {
 }
 
 // echarts3 饼图配置
-const getPieData = async () => {
-  const pieData: object[] = await proxy.$api.getPieData()
-
+const renderPieData = (pieData: any) => {
   const pieOptions: ECOption = {
     tooltip: {
       trigger: 'item'
@@ -200,14 +182,29 @@ const getPieData = async () => {
   PieChart.setOption(pieOptions)
 }
 
+// 获取表格数据
+const getHomeData = async () => {
+  const res = await proxy.$api.getData();
+  const homeData = res.data;
+  // 1. 表格渲染
+  tableData.push(...homeData.tableData);
+
+  // 2. 订单渲染
+  countData.push(...homeData.countData);
+
+  // 3. 折线图渲染
+  renderOrderData(homeData.orderData);
+
+  // 4. 柱图渲染
+  renderUserData(homeData.userData);
+
+  // 5. 饼图渲染
+  renderPieData(homeData.pieData);
+}
 
 // 发送请求
 onMounted(() => {
-  getTableData()
-  getCountData()
-  getOrderData()
-  getUserData()
-  getPieData()
+  getHomeData()
 })
 
 </script>

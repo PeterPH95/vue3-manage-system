@@ -8,7 +8,7 @@
     <h1>{{ tabStore.isCollapse ? '后台':'后台管理系统'}}</h1>
     <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.label"  @click="clickMenu(item)">
       <el-icon>
-        <component :is="components[item.component]"></component>
+        <component :is="components[item.icon]"></component>
       </el-icon>
       <template #title>
         {{item.label}}
@@ -17,14 +17,14 @@
     <el-sub-menu :index="item.label" v-for="item in hasChildren()" :key="item.label">
       <template #title>
         <el-icon>
-          <component :is="components[item.component]"></component>
+          <component :is="components[item.icon]"></component>
         </el-icon>
         <span>{{item.label}}</span>
       </template>
 			<!-- 子菜单 -->
         <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.label"  @click="clickMenu(subItem)">
 					<el-icon>
-            <component :is="components[item.component]"></component>
+            <component :is="components[subItem.icon]"></component>
           </el-icon>
 					{{subItem.label}}
 				</el-menu-item>
@@ -35,8 +35,8 @@
 <script lang='ts' setup>
 import { HomeFilled, Avatar, Menu, Guide, Apple, Orange } from '@element-plus/icons-vue';
 import { useTabStore } from "@/stores/tab";
+import { useAuthStore } from "@/stores/modules/auth";
 import { ref, onBeforeMount } from 'vue';
-import Cookies from 'js-cookie';
 import type { Menu as MenuType } from '@/interface/routeType';
 import { useRouter } from 'vue-router';
 
@@ -51,6 +51,7 @@ const components = {
 
 const tabStore = useTabStore();
 const router = useRouter();
+const authStore = useAuthStore()
 
 const menuList: MenuType[] | any = ref([])
 
@@ -68,8 +69,9 @@ const clickMenu = function(parmas: MenuType): void {
 }
 
 const getMenuList = () => {
-  let myMenu = JSON.parse(Cookies.get('menu'));
-  menuList.value = myMenu
+  // let myMenu = JSON.parse(Cookies.get('menu'));
+  let myMenu = authStore.authMenuListGet;
+  menuList.value = myMenu;
 }
 
 onBeforeMount(()=>{
@@ -81,7 +83,7 @@ onBeforeMount(()=>{
 <style lang="less" scoped>
 .el-menu {
   // 撑开侧边栏
-  height: 100%;
+  height: 100vh;
   h1 {
     height: 60px;
     line-height: 60px;

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import config from '../config';
-import Cookies from 'js-cookie';
+import { ElMessage } from "element-plus";
+import { useGlobalStore } from "@/stores";
+
 
 const NETWORK_ERROR = '网络请求异常，请稍后重试...'
 
@@ -8,7 +10,7 @@ const NETWORK_ERROR = '网络请求异常，请稍后重试...'
 type Options = {
   url: string,
   method: string,
-  data: object,
+  data: any,
   mock?: boolean,
   params?: object
 }
@@ -25,27 +27,35 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(function (config:any) {
   // 在发送请求之前做些什么
-  let token = Cookies.get('token')
-  if (token) {
-    config.headers.Authorization = token
-  }
-  return config;
+  const globalStore = useGlobalStore();
+  const token: string = globalStore.token;
+  // 将请求头携带token
+  return {...config, headers:{...config.headers, "x-access-token": token}};
 }, function (error) {
   // 对请求错误做些什么
   return Promise.reject(error);
 });
 
 // 添加响应拦截器
-service.interceptors.response.use(function (res) {
-  // 对响应数据做点什么
-  const {code, data} = res.data
-  if (code == 200) {
-    return data
-  }else {
-    // ElMessage.error(NETWORK_ERROR)
+service.interceptors.response.use(
+  function (res) {
+  // 获取响应的数据
+  const {data} = res;
+  // console.log(data.msg);
+  
+  if (data.code == 500) {
+    ElMessage.error(data.msg)
+    return Promise.reject(data.msg)
+  }
+  if (data.code && data.code!== 200){
+    ElMessage.error(NETWORK_ERROR)
     return Promise.reject(NETWORK_ERROR)
   }
-}, function (error) {
+
+  // 请求成功
+  return data
+}, 
+function (error) {
   // 对响应错误做点什么
   return Promise.reject(error);
 });

@@ -93,11 +93,13 @@
 <script lang="ts" setup>
 import {Menu, ArrowDown} from '@element-plus/icons-vue'
 import { useTabStore } from "@/stores/tab";
+import { useGlobalStore } from "@/stores";
 import { useRouter } from 'vue-router';
-import Cookies from 'js-cookie';
+import { resetRouter } from "@/router";
 
 const router = useRouter();
-const tabStore = useTabStore()
+const tabStore = useTabStore();
+const globalStore = useGlobalStore();
 
 // 切换背景色
 function changeBgColor(params: void) {
@@ -125,8 +127,9 @@ const handleCommand = (command: string | number | object) => {
 
 const handleExit = (command: string | number | object) => {
   if (command == "b") {
-    Cookies.remove('token');
-    Cookies.remove('menu');
+    // 重置路由
+    resetRouter();
+    globalStore.setToken("");
     router.push('/login');
   }else {
     console.log('个人信息展示');

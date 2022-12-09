@@ -12,40 +12,40 @@ export default {
             path: '/home',
             name: 'home',
             label: '首页',
-            component: 'HomeFilled',
-            url: 'Home.vue'
+            icon: 'HomeFilled',
+            component: '/home/index'
           },
           {
             path: '/mall',
             name: 'mall',
             label: '商品管理',
-            component: 'Menu',
-            url: 'Mall.vue'
+            icon: 'Menu',
+            component: '/mall/index'
           },
           {
             path: '/user',
             name: 'user',
             label: '用户管理',
-            component: 'Avatar',
-            url: 'User.vue'
+            icon: 'Avatar',
+            component: '/user/index'
           },
           {
             label: '其他',
             name: 'more',
-            component: 'Guide',
+            icon: 'Guide',
             children: [{
               path: '/page1',
               name: 'page1',
               label: '页面1',
-              component: 'Apple',
-              url: 'PageOne'
+              icon: 'Apple',
+              component: '/others/PageOne'
             },
             {
               path: '/page2',
               name: 'page2',
               label: '页面2',
-              component: 'Orange',
-              url: 'PageTwo'
+              icon: 'Orange',
+              component: '/others/PageTwo'
             }
             ]
           }
@@ -62,22 +62,22 @@ export default {
             path: '/home',
             name: 'home',
             label: '首页',
-            component: 'HomeFilled',
-            url: 'Home.vue'
+            icon: 'HomeFilled',
+            component: '/home/index'
           },
           {
             path: '/mall',
             name: 'mall',
             label: '商品管理',
-            component: 'Menu',
-            url: 'Mall.vue'
+            icon: 'Menu',
+            component: '/mall/index'
           },
           {
             path: '/user',
             name: 'user',
             label: '用户管理',
-            component: 'Avatar',
-            url: 'User.vue'
+            icon: 'Avatar',
+            component: '/user/index'
           }
           ],
           token: Mock.Random.guid(),

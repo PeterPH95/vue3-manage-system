@@ -10,6 +10,18 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  server: {
+    // 设置可以使用 ip 访问
+    host: "0.0.0.0",
+    port: 9527,
+    open: false,
+    cors: true
+  },
   plugins: [
     vue(),
     
@@ -22,9 +34,4 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
 })
