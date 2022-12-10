@@ -79,7 +79,6 @@ function getImageUrl(name: string): string {
 
 // echarts1 折线图配置
 const renderOrderData = (orderData: any) => {
-  console.log(orderData);
   
   const keyArray: string[] = Object.keys(orderData.data[0])
   const serie: LineSeriesOption[] = []

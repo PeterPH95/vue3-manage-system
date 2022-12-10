@@ -51,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
 		if (token && !authStore.authMenuListGet.length) {
 			await initDynamicRouter();
 			// 下面的方式来控制刷新保持原页面
-			return next(to.path);
+			return next({ path:to.path, replace: true });
 		} else {
 			// 一切正常
 			return next();

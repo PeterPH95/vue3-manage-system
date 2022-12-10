@@ -1,5 +1,5 @@
 <template>
-  <h1>这是PageTwo组件</h1>
+  <h1>这是节流组件</h1>
 </template>
 
 <script lang="ts" setup>

@@ -1,5 +1,5 @@
 <template>
-  <h1>这是Mall组件</h1>
+  <h1>这是按钮权限组件</h1>
 </template>
 
 <script lang="ts" setup>

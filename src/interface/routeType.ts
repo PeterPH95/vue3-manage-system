@@ -4,7 +4,8 @@ export interface Menu {
   path: string;
   name: string;
   label: string;
-  icon: 'HomeFilled' | 'Avatar' | 'Menu' | 'Guide' | 'Apple' | 'Orange' ;
+  icon: 'HomeFilled' | 'Avatar' | 'Postcard' | 'Menu' | 'Briefcase' | 'Stamp' 
+          | 'Apple' | 'Orange' | 'Grape' | 'Watermelon' | 'Cherry' ;
   component?: string;
   children?: Menu[];
 }

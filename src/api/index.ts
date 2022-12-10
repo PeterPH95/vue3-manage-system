@@ -10,7 +10,7 @@ export default {
       url: '/home/getData',
       method: 'get',
       data: params,
-      mock: false
+      mock: true
     })
   }
 }

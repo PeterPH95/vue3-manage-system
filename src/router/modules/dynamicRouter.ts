@@ -42,7 +42,7 @@ export const initDynamicRouter =async () => {
       myMenu.push(item);
     }
   });
-  console.log(myMenu);
+  // console.log(myMenu);
   
   // 加入路由
   myMenu.forEach((item: any) => {

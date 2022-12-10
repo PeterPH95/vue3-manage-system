@@ -2,10 +2,10 @@
   <el-menu
     default-active="1"
     class="el-menu-vertical-demo"
-    :collapse="tabStore.isCollapse"
+    :collapse="globalStore.isCollapse"
   >
     <!-- 标题 -->
-    <h1>{{ tabStore.isCollapse ? '后台':'后台管理系统'}}</h1>
+    <h1>{{ globalStore.isCollapse ? '后台':'后台管理系统'}}</h1>
     <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.label"  @click="clickMenu(item)">
       <el-icon>
         <component :is="components[item.icon]"></component>
@@ -33,10 +33,11 @@
 </template>
 
 <script lang='ts' setup>
-import { HomeFilled, Avatar, Menu, Guide, Apple, Orange } from '@element-plus/icons-vue';
-import { useTabStore } from "@/stores/tab";
+import { HomeFilled, Avatar, Menu, Apple, Orange, Briefcase, Stamp, Postcard, Grape, Cherry, Watermelon } from '@element-plus/icons-vue';
+import { useTabStore } from "@/stores/modules/tab";
 import { useAuthStore } from "@/stores/modules/auth";
-import { ref, onBeforeMount } from 'vue';
+import { useGlobalStore } from "@/stores";
+import { onBeforeMount, computed } from 'vue';
 import type { Menu as MenuType } from '@/interface/routeType';
 import { useRouter } from 'vue-router';
 
@@ -44,46 +45,43 @@ const components = {
   'HomeFilled':HomeFilled,
   'Avatar': Avatar,
   'Menu': Menu,
-  'Guide': Guide,
+  'Postcard': Postcard,
+  'Briefcase': Briefcase,
+  'Stamp': Stamp,
   'Apple': Apple,
-  'Orange': Orange
+  'Orange': Orange,
+  'Grape': Grape,
+  'Watermelon': Watermelon,
+  'Cherry': Cherry
 }
 
-const tabStore = useTabStore();
 const router = useRouter();
-const authStore = useAuthStore()
+const tabStore = useTabStore();
+const authStore = useAuthStore();
+const globalStore = useGlobalStore();
 
-const menuList: MenuType[] | any = ref([])
+// 计算属性而不是响应式
+const menuList = computed(() => authStore.authMenuList)
 
 const hasNoChildren = function(): MenuType[] {
-  return menuList.value.filter((item: { children: any; }) => !item.children);
+  return menuList.value.filter(item => !item.children);
 }
 
 const hasChildren = function(): MenuType[] {
-  return menuList.value.filter((item: { children: any; }) => item.children);
+  return menuList.value.filter(item => item.children)
 }
 
-const clickMenu = function(parmas: MenuType): void {
-  // console.log(parmas);
-  router.push(parmas.path);
+const clickMenu = function(params: MenuType): void {
+  // console.log(params);
+  tabStore.addTabs({title: params.label, path: params.path, icon: params.icon})
+  router.push(params.path);
 }
-
-const getMenuList = () => {
-  // let myMenu = JSON.parse(Cookies.get('menu'));
-  let myMenu = authStore.authMenuListGet;
-  menuList.value = myMenu;
-}
-
-onBeforeMount(()=>{
-  getMenuList();
-})
-
 </script>
 
 <style lang="less" scoped>
 .el-menu {
-  // 撑开侧边栏
-  height: 100vh;
+  // 撑开侧边栏,尽量使用%，少用vh
+  height: 100%;
   h1 {
     height: 60px;
     line-height: 60px;

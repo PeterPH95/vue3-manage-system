@@ -39,7 +39,7 @@ const EnvConfig: Mode = {
 
 export default {
   env,
-  // mock 的总开关
+  // mock 的总开关，本地mock为false，远程mock为 true
   mock: true,
   // 报错
   ...EnvConfig[env]

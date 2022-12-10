@@ -12,7 +12,7 @@
           <CommonHeader />
         </el-header>
         <!-- 面包屑 -->
-        <CommonTag />
+        <!-- <CommonTag /> -->
         <el-main>
           <!-- 路由显示的部分 -->
     			<router-view />
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-// 新版都不用导入了吗？？？
+// 新版都不用导入了吗？？？自动导入插件
 // import CommonHeader from "../components/CommonHeader.vue";
 // import CommonAside from "../components/CommonAside.vue";
 
@@ -31,9 +31,16 @@
 
 <style lang='less' scoped>
 .common-layout {
-	// height: 100vh;
+  // 底色
   background-color: #f5f5f5;
+  height: 100%;
+  width: 100%;
   .el-container {
+    height: 100%;
+
+    .el-aside {
+      overflow: hidden;
+    }
     .el-header {
       padding: 0;
     }

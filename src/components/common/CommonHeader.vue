@@ -4,6 +4,19 @@
       <el-button @click="handleMenu">
         <el-icon><Menu /></el-icon>
       </el-button>
+      <div class="bread">
+        <el-breadcrumb :separator-icon="ArrowRight">
+          <el-breadcrumb-item 
+          v-for="item in tabStore.tabList" 
+          :to="{ path: item.path }"
+          >
+            <el-icon>
+              <component :is="components[item.icon]"></component>
+            </el-icon>
+            {{ item.title }}
+          </el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
     </div>
     <div class="r-content">
       <!-- 背景选择 -->
@@ -11,7 +24,7 @@
         <button class="toggle-color-mode-button" @click="changeBgColor()">
           <!-- sun -->
           <svg
-            :style="tabStore.bg ? 'display: none' : ''"
+            :style="globalStore.bg ? 'display: none' : ''"
             class="icon"
             focusable="false"
             viewBox="0 0 32 32"
@@ -43,7 +56,7 @@
           </svg>
           <!-- moon -->
           <svg
-            :style="tabStore.bg ? '' : 'display: none'"
+            :style="globalStore.bg ? '' : 'display: none'"
             class="icon"
             focusable="false"
             viewBox="0 0 32 32"
@@ -91,27 +104,41 @@
 </template>
 
 <script lang="ts" setup>
-import {Menu, ArrowDown} from '@element-plus/icons-vue'
-import { useTabStore } from "@/stores/tab";
 import { useGlobalStore } from "@/stores";
+import { useTabStore } from "@/stores/modules/tab";
 import { useRouter } from 'vue-router';
 import { resetRouter } from "@/router";
+import { HomeFilled, Avatar, Menu, Postcard, Briefcase, Stamp, Apple, Orange, Grape, Watermelon, Cherry, ArrowDown, ArrowRight } from "@element-plus/icons-vue";
+
+const components = {
+  'HomeFilled':HomeFilled,
+  'Avatar': Avatar,
+  'Menu': Menu,
+  'Postcard': Postcard,
+  'Briefcase': Briefcase,
+  'Stamp': Stamp,
+  'Apple': Apple,
+  'Orange': Orange,
+  'Grape': Grape,
+  'Watermelon': Watermelon,
+  'Cherry': Cherry
+}
 
 const router = useRouter();
-const tabStore = useTabStore();
 const globalStore = useGlobalStore();
+const tabStore = useTabStore();
 
 // 切换背景色
 function changeBgColor(params: void) {
-  tabStore.changeBg();
+  globalStore.changeBg();
   // 修改整体背景的操作
-  console.log(tabStore.bg);
+  console.log(globalStore.bg);
 }
 
 // 折叠菜单栏
 function handleMenu(params: void) {
-  tabStore.collapseMenu()
-  console.log(tabStore.isCollapse);
+  globalStore.collapseMenu()
+  console.log(globalStore.isCollapse);
   
 }
 
@@ -146,8 +173,29 @@ const handleExit = (command: string | number | object) => {
   justify-content: space-between;
   align-items: center;
 
-  // .l-content {
-  // }
+  .l-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .el-breadcrumb {
+      margin-left: 20px;
+      
+      :deep(.el-breadcrumb__inner) {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        font-weight: normal;
+        color: #f3f5f5cb;
+        .el-icon {
+          margin-right: 6px;
+        }
+      }
+      :deep(.el-icon){
+        color: #f3f5f5cb;
+      }
+    }
+  }
 
   .r-content {
     display: flex;
@@ -193,6 +241,13 @@ const handleExit = (command: string | number | object) => {
     color: var(--el-color-primary);
     display: flex;
     align-items: center;
+  }
+}
+
+// 当前激活的标签
+.active {
+  :deep(.el-breadcrumb__inner) {
+    color: rgb(90, 177, 239);
   }
 }
 </style>

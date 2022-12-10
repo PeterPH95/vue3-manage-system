@@ -9,13 +9,21 @@ export const useGlobalStore = defineStore(
   // 其他配置...
   state: () => ({ 
     token: "",
+    isCollapse: false,// 折叠菜单
+    bg: false,// 默认太阳
   }),
   getters: {},
   actions: {
     // 存储后端返回的 token
     setToken(token: string) {
       this.token = token
-    }
+    },
+    collapseMenu() {
+      this.isCollapse = !this.isCollapse;
+    },
+    changeBg() {
+      this.bg = !this.bg;
+    },
   },
   persist: true
 })

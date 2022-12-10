@@ -10,7 +10,7 @@
           <el-input v-model="ruleForm.password" type="password" show-password placeholder="密码：123456" :prefix-icon="Lock" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="login(ruleFormRef)" >登录</el-button>
+          <el-button type="primary" @click="login(ruleFormRef)" :loading="loading" >登录</el-button>
           <el-button @click="resetForm(ruleFormRef)">重置</el-button>
         </el-form-item>
       </el-form>
@@ -24,16 +24,19 @@ import { Lock, User } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useGlobalStore } from "@/stores";
+import { useTabStore } from "@/stores/modules/tab";
 import { initDynamicRouter } from "@/router/modules/dynamicRouter";
 import { loginApi } from "@/api/modules/login";
 
 // const {proxy} = getCurrentInstance() as any;
 const router = useRouter();
 const globalStore = useGlobalStore();
+const tabStore = useTabStore();
 
 const ruleFormRef = ref<FormInstance>();
 
-const ruleForm = reactive({ username: 'admin', password: '123456'});
+const loading = ref(false);
+const ruleForm = reactive({ username: '', password: ''});
 
 const rules = reactive<FormRules>({
   username: [ { required: true, trigger: 'blur', message: '请输入用户名' }],
@@ -47,17 +50,24 @@ const login = (formEl: FormInstance | undefined) => {
   formEl.validate( async valid => {
     if (!valid) return;
 
-    // 1.执行登录接口 返回两类的token（管理员|用户）
-    const {data} = await loginApi(ruleForm);
-    globalStore.setToken(data.access_token)
-    
-    // 2.添加动态路由
-    await initDynamicRouter();
+    loading.value = true;
+    try {
+      // 1.执行登录接口 返回两类的token（管理员|用户）
+      const {data} = await loginApi(ruleForm);
+      
+      globalStore.setToken(data.access_token)
+      
+      // 2.添加动态路由
+      await initDynamicRouter();
 
-    // 3.清除上次的登录记录
+      // 3.清除上次的tab信息
+      tabStore.clearTabs()
 
-    // 4.跳转到首页
-    router.push('/home');
+      // 4.跳转到首页
+      router.push('/home');
+    } finally {
+      loading.value = false;
+    }
   })
 }
 
