@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { getCurrentInstance, onMounted, reactive, ref } from 'vue';
 import { Lock, User } from '@element-plus/icons-vue';
-import type { FormInstance, FormRules } from 'element-plus';
+import { ElNotification, type FormInstance, type FormRules } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useGlobalStore } from "@/stores";
 import { useTabStore } from "@/stores/modules/tab";
@@ -54,17 +54,25 @@ const login = (formEl: FormInstance | undefined) => {
     try {
       // 1.执行登录接口 返回两类的token（管理员|用户）
       const {data} = await loginApi(ruleForm);
-      
       globalStore.setToken(data.access_token)
       
       // 2.添加动态路由
       await initDynamicRouter();
 
       // 3.清除上次的tab信息
-      tabStore.clearTabs()
-
+      tabStore.clearTabs();
+      
       // 4.跳转到首页
       router.push('/home');
+
+      // 5.登录成功提示
+      ElNotification({
+        title: "🍊🍊🍊",
+        message: "欢迎登录后台管理系统",
+        type: "success",
+        duration: 3000
+      });
+
     } finally {
       loading.value = false;
     }

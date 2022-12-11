@@ -100,6 +100,23 @@
         </el-dropdown>
       </div>
     </div>
+    <!-- 退出提示 -->
+    <el-dialog
+      v-model="exitDialog"
+      title="温馨提示"
+      width="30%"
+      align-center
+    >
+      <span>你是否确定退出？</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="exitDialog = false">取消</el-button>
+          <el-button type="primary" @click="exit">
+            确认
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -109,6 +126,9 @@ import { useTabStore } from "@/stores/modules/tab";
 import { useRouter } from 'vue-router';
 import { resetRouter } from "@/router";
 import { HomeFilled, Avatar, Menu, Postcard, Briefcase, Stamp, Apple, Orange, Grape, Watermelon, Cherry, ArrowDown, ArrowRight } from "@element-plus/icons-vue";
+import { ref } from "vue";
+import { ElMessage } from "element-plus";
+
 
 const components = {
   'HomeFilled':HomeFilled,
@@ -127,6 +147,9 @@ const components = {
 const router = useRouter();
 const globalStore = useGlobalStore();
 const tabStore = useTabStore();
+
+// 退出的弹窗
+const exitDialog = ref(false);
 
 // 切换背景色
 function changeBgColor(params: void) {
@@ -152,16 +175,33 @@ const handleCommand = (command: string | number | object) => {
   console.log(`click on item ${command}`);
 };
 
+// 
 const handleExit = (command: string | number | object) => {
+  // 退出
   if (command == "b") {
-    // 重置路由
-    resetRouter();
-    globalStore.setToken("");
-    router.push('/login');
+    // 显示退出的弹窗
+    exitDialog.value = true;
   }else {
     console.log('个人信息展示');
   }
 }
+
+const exit = () => {
+  // 关闭弹窗
+  exitDialog.value = false;
+  // 1. 重置路由
+  resetRouter();
+  // 2. 清除 token
+  globalStore.setToken("");
+  // 3. 返回首页
+  router.push('/login');
+  // 4. 退出成功提示
+  ElMessage({
+    message: '退出登录成功！',
+    type: 'success',
+  })
+}
+
 </script>
 
 <style lang="less" scoped>

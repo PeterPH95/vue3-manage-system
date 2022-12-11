@@ -24,9 +24,3 @@ export const useAuthStore = defineStore(
   },
   persist: false
 })
-
-// 数据持久化 插件：piniaPersist
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
-
-export default pinia;
