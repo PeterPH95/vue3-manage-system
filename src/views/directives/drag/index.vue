@@ -55,6 +55,7 @@ const vDraggable = {
 .content-box {
 	position: relative;
   text-align: center;
+  background-color: #fff;
   height: 100%;
   border: 1px solid #545c64;
   .text {

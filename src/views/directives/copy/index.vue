@@ -19,9 +19,10 @@ import { ElMessage } from "element-plus";
 
 interface ElType extends HTMLElement {
 	copyData: string | number;
+	__handleClick__: () => any;
 }
 
-const data = ref<string>("我是被复制的内容 🍒 🍉 🍊");
+const data = ref<string>("我是被复制的内容 🍒");
 
 const vCopy = {
   /**
@@ -31,13 +32,14 @@ const vCopy = {
    */
   mounted(el: ElType, binding: DirectiveBinding) {
     el.copyData = binding.value;
-    el.addEventListener("click", handleClick);
+    el.__handleClick__ = handleClick;
+    el.addEventListener("click", el.__handleClick__);
   },
   updated(el: ElType, binding: DirectiveBinding) {
     el.copyData = binding.value;
   },
   beforeUnMount(el: ElType) {
-    el.removeEventListener("click", handleClick);
+    el.removeEventListener("click", el.__handleClick__);
   }
 }
 
@@ -81,6 +83,7 @@ function handleClick(this:any) {
 .content-box {
   text-align: center;
   height: 100%;
+  background-color: #fff;
   position: relative;
   .text {
     font-size: 20px;
