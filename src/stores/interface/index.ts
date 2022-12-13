@@ -1,3 +1,6 @@
+import exp from "constants";
+import { type } from "os";
+
 /* tabsMenuProps */
 export interface TabsMenuProps {
 	title: string;
@@ -26,3 +29,21 @@ export interface Menu {
   component?: string;
   children?: Menu[];
 } 
+
+
+export enum Day {
+  '周日', '周一', '周二', '周三', '周四', '周五', '周六'
+}
+
+// todo 的数据格式
+export interface Todo {
+  id: string;
+  content: string;
+  day: Day;
+  fulfill: boolean;
+}
+
+export interface TodosState {
+	todoList: Todo[];
+  todoFulfillList: Todo[];
+}

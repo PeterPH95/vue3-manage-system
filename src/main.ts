@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 // ElMessage 样式需要这样引入 https://element-plus.gitee.io/zh-CN/guide/quickstart.html#%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5
 import 'element-plus/es/components/message/style/css';
 import 'element-plus/es/components/notification/style/css';
+import 'element-plus/es/components/message-box/style/css';
 // import 'element-plus/dist/index.css';//所有样式
 
 import App from '@/App.vue';

@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html,body{
+  height: 100%;
+}
+
 body,
 div,
 dl,
@@ -45,16 +49,6 @@ caption {
   font-size: 14px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: normal;
-  // font-size: 100%;
-}
-
 address,
 caption,
 cite,
@@ -91,7 +85,15 @@ input,
 textarea,
 select,
 button {
-  font: 14px Verdana, Helvetica, Arial, sans-serif;
+  font-family: "Microsoft YaHei",Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+}
+
+img,button,input{
+  border: none;
+}
+
+input:focus {
+  outline: none;
 }
 
 table {
