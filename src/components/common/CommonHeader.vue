@@ -6,14 +6,20 @@
       </el-button>
       <div class="bread">
         <el-breadcrumb :separator-icon="ArrowRight">
+          <el-breadcrumb-item :to="{ path: '/home' }" key="/home" v-if="tabLists[0].meta.title !== '首页'">
+            <el-icon>
+              <HomeFilled />
+            </el-icon>
+            <span>首页</span>
+          </el-breadcrumb-item>
           <el-breadcrumb-item 
-          v-for="item in tabStore.tabList" 
-          :to="{ path: item.path }"
+            v-for="item in tabLists" 
+            :to="{ path: item.path }"
           >
             <el-icon>
-              <component :is="components[item.icon]"></component>
+              <component :is="components[item.meta.icon]"></component>
             </el-icon>
-            {{ item.title }}
+            {{ item.meta.title }}
           </el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -106,11 +112,11 @@
 
 <script lang="ts" setup>
 import { useGlobalStore } from "@/stores";
-import { useTabStore } from "@/stores/modules/tab";
-import { useRouter } from 'vue-router';
+import { useAuthStore } from "@/stores/modules/auth";
+import { useRouter, useRoute } from 'vue-router';
 import { resetRouter } from "@/router";
 import { HomeFilled, Avatar, Menu, Postcard, Briefcase, Stamp, Apple, Orange, Grape, Watermelon, Cherry, ArrowDown, ArrowRight } from "@element-plus/icons-vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 
 
@@ -125,25 +131,30 @@ const components = {
   'Orange': Orange,
   'Grape': Grape,
   'Watermelon': Watermelon,
-  'Cherry': Cherry
+  'Cherry': Cherry,
 }
 
 const router = useRouter();
+// 获取面包屑
+const route = useRoute();
 const globalStore = useGlobalStore();
-const tabStore = useTabStore();
+const authStore = useAuthStore();
+
+// route.matched.path 获取当前路由地址
+const tabLists = computed(() => authStore.breadcrumbGet[route.matched[route.matched.length-1].path]);
 
 // 退出的弹窗
 const exitDialog = ref(false);
 
 // 切换背景色
-function changeBgColor(params: void) {
+function changeBgColor() {
   globalStore.changeBg();
   // 修改整体背景的操作
   console.log(globalStore.bg);
 }
 
 // 折叠菜单栏
-function handleMenu(params: void) {
+function handleMenu() {
   globalStore.collapseMenu()
   console.log(globalStore.isCollapse);
   

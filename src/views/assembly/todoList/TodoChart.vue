@@ -47,8 +47,8 @@ function updateChart() {
     dataset: {
       source: [
         list,
-        todos,
-        fulfill
+        fulfill,
+        todos
       ]
     }
   })
@@ -93,13 +93,14 @@ onMounted(() => {
       dataset: {
         source: [
           list,
+          fulfill,
           todos,
-          fulfill
         ]
       },
       xAxis: { type: 'category' },
       yAxis: { gridIndex: 0 },
       grid: { top: '40%' },
+      color:['#91cd77','#ef6567'],
       series: [
         {
           type: 'line',

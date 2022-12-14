@@ -76,7 +76,7 @@ const vDraggable = {
     line-height: 300px;
 		font-weight: bold;
 		color: #fff;
-		background: tomato;
+		background: skyblue;
 		border-radius: 50%;
 	}
 }

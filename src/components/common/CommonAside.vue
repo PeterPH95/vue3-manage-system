@@ -6,27 +6,27 @@
   >
     <!-- 标题 -->
     <h1>{{ globalStore.isCollapse ? '后台':'后台管理系统'}}</h1>
-    <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.label"  @click="clickMenu(item)">
+    <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.path"  @click="clickMenu(item)">
       <el-icon>
-        <component :is="components[item.icon]"></component>
+        <component :is="components[item.meta.icon]"></component>
       </el-icon>
       <template #title>
-        {{item.label}}
+        {{item.meta.title}}
       </template>
     </el-menu-item>
-    <el-sub-menu :index="item.label" v-for="item in hasChildren()" :key="item.label">
+    <el-sub-menu :index="item.meta.title" v-for="item in hasChildren()" :key="item.path">
       <template #title>
         <el-icon>
-          <component :is="components[item.icon]"></component>
+          <component :is="components[item.meta.icon]"></component>
         </el-icon>
-        <span>{{item.label}}</span>
+        <span>{{item.meta.title}}</span>
       </template>
 			<!-- 子菜单 -->
-        <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.label"  @click="clickMenu(subItem)">
+        <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="item.meta.title"  @click="clickMenu(subItem)">
 					<el-icon>
-            <component :is="components[subItem.icon]"></component>
+            <component :is="components[subItem.meta.icon]"></component>
           </el-icon>
-					{{subItem.label}}
+					{{subItem.meta.title}}
 				</el-menu-item>
     </el-sub-menu>
   </el-menu>
@@ -73,7 +73,7 @@ const hasChildren = function(): MenuType[] {
 
 const clickMenu = function(params: MenuType): void {
   // console.log(params);
-  tabStore.addTabs({title: params.label, path: params.path, icon: params.icon})
+  tabStore.addTabs({title: params.meta.title, path: params.path, icon: params.meta.icon})
   router.push(params.path);
 }
 </script>

@@ -11,105 +11,133 @@ export default {
           menu: [{
             path: '/home',
             name: 'home',
-            label: '首页',
             icon: 'HomeFilled',
-            component: '/home/index'
+            component: '/home/index',
+            meta: {
+              title: '首页'
+            }
           },
           {
             path: '/user',
             name: 'user',
-            label: '用户管理',
             icon: 'Avatar',
-            component: '/user/index'
+            component: '/user/index',
+            meta: {
+              title: '用户管理'
+            }
           },
           {
             path: '/auth',
             name: 'auth',
-            label: '权限管理',
             icon: 'Postcard',
             redirect: '/auth/menuList',
-            children: [{
-              path: '/auth/menuList',
-              name: 'menuList',
-              label: '菜单权限',
-              icon: 'Menu',
-              component: '/auth/menuList/index'
+            meta: {
+              title: '权限管理'
             },
-            {
-              path: '/auth/btnList',
-              name: 'btnList',
-              label: '按钮权限',
-              icon: 'Menu',
-              component: '/auth/btnList/index'
-            }
+            children: [{
+                path: '/auth/menuList',
+                name: 'menuList',
+                label: '菜单权限',
+                icon: 'Menu',
+                component: '/auth/menuList/index',
+                meta: {
+                  title: '菜单权限'
+                }
+              },
+              {
+                path: '/auth/btnList',
+                name: 'btnList',
+                icon: 'Menu',
+                component: '/auth/btnList/index',
+                meta: {
+                  title: '按钮权限'
+                }
+              }
             ]
           },
           {
             path: '/assembly',
             name: 'assembly',
-            label: '自定义组件',
             icon: 'Briefcase',
             redirect: '/assembly/todoList',
-            children: [{
-              path: '/auth/todoList',
-              name: 'todolist',
-              label: 'Todo List',
-              icon: 'Menu',
-              component: '/assembly/todoList/index'
+            meta: {
+              title: '自定义组件'
             },
-            {
-              path: '/auth/banner',
-              name: 'banner',
-              label: '轮播图',
-              icon: 'Menu',
-              component: '/assembly/banner/index'
-            }
+            children: [{
+                path: '/assembly/todoList',
+                name: 'todolist',
+                icon: 'Menu',
+                component: '/assembly/todoList/index',
+                meta: {
+                  title: 'Todo List'
+                }
+              },
+              {
+                path: '/assembly/banner',
+                name: 'banner',
+                icon: 'Menu',
+                component: '/assembly/banner/index',
+                meta: {
+                  title: '轮播图'
+                }
+              }
             ]
           },
           {
             path: '/directives',
             name: 'Directives',
-            label: '小功能',
             icon: 'Stamp',
             redirect: '/directives/watermark',
+            meta: {
+              title: '小功能'
+            },
             children: [{
-              path: '/directives/watermark',
-              name: 'watermark',
-              label: '水印',
-              icon: 'Apple',
-              component: '/directives/watermark/index'
-            },
-            {
-              path: '/directives/copy',
-              name: 'copy',
-              label: '复制',
-              icon: 'Orange',
-              component: '/directives/copy/index'
-            },
-            {
-              path: '/directives/drag',
-              name: 'drag',
-              label: '拖拽',
-              icon: 'Grape',
-              component: '/directives/drag/index'
-            },
-            {
-              path: '/directives/debounce',
-              name: 'debounce',
-              label: '防抖',
-              icon: 'Watermelon',
-              component: '/directives/debounce/index'
-            },
-            {
-              path: '/directives/throttle',
-              name: 'throttle',
-              label: '节流',
-              icon: 'Cherry',
-              component: '/directives/throttle/index'
-            }
+                path: '/directives/watermark',
+                name: 'watermark',
+                icon: 'Apple',
+                component: '/directives/watermark/index',
+                meta: {
+                  title: '水印'
+                }
+              },
+              {
+                path: '/directives/drag',
+                name: 'drag',
+                icon: 'Grape',
+                component: '/directives/drag/index',
+                meta: {
+                  title: '拖拽'
+                }
+              },
+              {
+                path: '/directives/copy',
+                name: 'copy',
+                icon: 'Orange',
+                component: '/directives/copy/index',
+                meta: {
+                  title: '复制'
+                }
+              },
+              {
+                path: '/directives/debounce',
+                name: 'debounce',
+                icon: 'Watermelon',
+                component: '/directives/debounce/index',
+                meta: {
+                  title: '防抖'
+                }
+              },
+              {
+                path: '/directives/throttle',
+                name: 'throttle',
+                icon: 'Cherry',
+                component: '/directives/throttle/index',
+                meta: {
+                  title: '节流'
+                }
+              }
             ]
-          }
-          ],
+          }],
           token: Mock.Random.guid(),
           message: '管理员路由信息获取成功'
         }
@@ -121,40 +149,50 @@ export default {
           menu: [{
             path: '/home',
             name: 'home',
-            label: '首页',
             icon: 'HomeFilled',
-            component: '/home/index'
+            component: '/home/index',
+            meta: {
+              title: '首页'
+            }
           },
           {
             path: '/user',
             name: 'user',
-            label: '用户管理',
             icon: 'Avatar',
-            component: '/user/index'
+            component: '/user/index',
+            meta: {
+              title: '用户管理'
+            }
           },
           {
             path: '/auth',
             name: 'auth',
-            label: '权限管理',
             icon: 'Postcard',
             redirect: '/auth/menuList',
+            meta: {
+              title: '权限管理'
+            },
             children: [{
                 path: '/auth/menuList',
                 name: 'menuList',
                 label: '菜单权限',
                 icon: 'Menu',
-                component: '/auth/menuList/index'
+                component: '/auth/menuList/index',
+                meta: {
+                  title: '菜单权限'
+                }
               },
               {
                 path: '/auth/btnList',
                 name: 'btnList',
-                label: '按钮权限',
                 icon: 'Menu',
-                component: '/auth/btnList/index'
+                component: '/auth/btnList/index',
+                meta: {
+                  title: '按钮权限'
+                }
               }
             ]
-          }
-          ],
+          }],
           token: Mock.Random.guid(),
           message: '普通用户路由信息获取成功'
         }

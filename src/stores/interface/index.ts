@@ -1,12 +1,12 @@
-import exp from "constants";
-import { type } from "os";
+import type { Menu } from '@/interface/routeType';
+
 
 /* tabsMenuProps */
 export interface TabsMenuProps {
 	title: string;
 	path: string;
 	icon: 'HomeFilled' | 'Avatar' | 'Postcard' | 'Menu' | 'Briefcase' | 'Stamp' 
-          | 'Apple' | 'Orange' | 'Grape' | 'Watermelon' | 'Cherry' ;
+        | 'Apple' | 'Orange' | 'Grape' | 'Watermelon' | 'Cherry' ;
 }
 
 /* TabsState */
@@ -20,16 +20,6 @@ export interface AuthState {
 }
 
 // 菜单的数据类型格式
-export interface Menu {
-  path: string;
-  name: string;
-  label: string;
-  icon: 'HomeFilled' | 'Avatar' | 'Postcard' | 'Menu' | 'Briefcase' | 'Stamp' 
-          | 'Apple' | 'Orange' | 'Grape' | 'Watermelon' | 'Cherry' ;
-  component?: string;
-  children?: Menu[];
-} 
-
 
 export enum Day {
   '周日', '周一', '周二', '周三', '周四', '周五', '周六'
