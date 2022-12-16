@@ -6,29 +6,31 @@
   >
     <!-- 标题 -->
     <h1>{{ globalStore.isCollapse ? '后台':'后台管理系统'}}</h1>
-    <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.path"  @click="clickMenu(item)">
+    <el-scrollbar style="overflow-x: hidden;">
+      <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.path"  @click="clickMenu(item)">
       <el-icon>
         <component :is="components[item.meta.icon]"></component>
       </el-icon>
       <template #title>
         {{item.meta.title}}
       </template>
-    </el-menu-item>
-    <el-sub-menu :index="item.meta.title" v-for="item in hasChildren()" :key="item.path">
-      <template #title>
-        <el-icon>
-          <component :is="components[item.meta.icon]"></component>
-        </el-icon>
-        <span>{{item.meta.title}}</span>
-      </template>
-			<!-- 子菜单 -->
-        <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="item.meta.title"  @click="clickMenu(subItem)">
-					<el-icon>
-            <component :is="components[subItem.meta.icon]"></component>
+      </el-menu-item>
+      <el-sub-menu :index="item.meta.title" v-for="item in hasChildren()" :key="item.path">
+        <template #title>
+          <el-icon>
+            <component :is="components[item.meta.icon]"></component>
           </el-icon>
-					{{subItem.meta.title}}
-				</el-menu-item>
-    </el-sub-menu>
+          <span>{{item.meta.title}}</span>
+        </template>
+        <!-- 子菜单 -->
+          <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="item.meta.title"  @click="clickMenu(subItem)">
+            <el-icon>
+              <component :is="components[subItem.meta.icon]"></component>
+            </el-icon>
+            {{subItem.meta.title}}
+          </el-menu-item>
+      </el-sub-menu>
+    </el-scrollbar>
   </el-menu>
 </template>
 
@@ -38,7 +40,6 @@ import { useTabStore } from "@/stores/modules/tab";
 import { useAuthStore } from "@/stores/modules/auth";
 import { useGlobalStore } from "@/stores";
 import { onBeforeMount, computed } from 'vue';
-import type { Menu as MenuType } from '@/interface/routeType';
 import { useRouter } from 'vue-router';
 
 const components = {
@@ -63,15 +64,15 @@ const globalStore = useGlobalStore();
 // 计算属性而不是响应式
 const menuList = computed(() => authStore.authMenuList)
 
-const hasNoChildren = function(): MenuType[] {
+const hasNoChildren = function(): Menu[] {
   return menuList.value.filter(item => !item.children);
 }
 
-const hasChildren = function(): MenuType[] {
+const hasChildren = function(): Menu[] {
   return menuList.value.filter(item => item.children)
 }
 
-const clickMenu = function(params: MenuType): void {
+const clickMenu = function(params: Menu): void {
   // console.log(params);
   tabStore.addTabs({title: params.meta.title, path: params.path, icon: params.meta.icon})
   router.push(params.path);

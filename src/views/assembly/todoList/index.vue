@@ -1,7 +1,7 @@
 <template>
   <div class="todolist">
     <el-row style="height: 15%;">
-      <h1 class="title">todos</h1>
+      <h1 class="title">Today's Todos</h1>
     </el-row>
     <el-row :gutter="20" style="height: 80%;">
       <el-col :span="8">
@@ -33,7 +33,7 @@
         </div>
       </el-col>
       <el-col :span="16">
-        <div class="r-content" style="height: 100%;">
+        <div class="r-content" style="height: 100%; width: 100%;">
           <h1>完成量统计</h1>
           <TodoChart :todoLists="todoLists" />
         </div>
@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { useTodoStore } from "@/stores/modules/todo";
-import type { Todo, Day } from "@/stores/interface/index";
+import type { Todo } from "@/stores/interface/index";
 import { nanoid } from 'nanoid';
 import { computed, ref, watch } from "vue";
 import { ElMessage } from "element-plus";

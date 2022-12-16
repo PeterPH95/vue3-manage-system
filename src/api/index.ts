@@ -12,5 +12,15 @@ export default {
       data: params,
       mock: true
     })
+  },
+
+  /* 多次请求测试 */ 
+  getTest(params?: object){
+    return request({
+      url: '/assembly/getTest',
+      method: 'get',
+      data: params,
+      mock: true
+    })
   }
 }

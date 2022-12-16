@@ -42,7 +42,7 @@ const addWaterMarker = (str: string, parentNode: any, font: any, textColor: stri
 }
   
 const vWaterMarker = {
-  mounted(el: DirectiveBinding, binding: DirectiveBinding) {
+  mounted(el: HTMLElement, binding: DirectiveBinding) {
     addWaterMarker(binding.value.text, el, binding.value.font, binding.value.textColor);
   }
 }

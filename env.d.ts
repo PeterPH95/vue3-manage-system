@@ -9,3 +9,4 @@ declare module '*.vue' {
  
 // 解决 js-cookie 导入报错
 declare module 'js-cookie';
+declare module 'qs';

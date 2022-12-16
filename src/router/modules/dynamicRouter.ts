@@ -28,7 +28,7 @@ export const initDynamicRouter =async () => {
 
   // 3. 添加动态路由
   const menuList = getFlatArr(JSON.parse(JSON.stringify(authStore.authMenuListGet)));// proxy对象转为普通对象
-  console.log(menuList);
+  // console.log(menuList);
   
   menuList.forEach((item: any) => {
     if (item.children) {

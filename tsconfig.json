@@ -11,6 +11,7 @@
     "skipLibCheck": true ,
     "allowJs": true,
     "baseUrl": ".",
+    "suppressImplicitAnyIndexErrors": true,//防止 key 值报错
     "paths": {
       "@/*": ["./src/*"]
     },
