@@ -13,3 +13,13 @@ export namespace Login {
     }
   }
 }
+
+
+// 用户列表
+export interface User {
+  id: string;
+  name: string;
+  gender: 0 | 1;
+  date: string;
+  address: string;
+}

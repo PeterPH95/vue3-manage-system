@@ -3,7 +3,7 @@
     <div class="text"> 🍇 节流指令 🍓</div>
     <el-input class="input" v-model="delay" type="number" style="width: 500px">
       <template #append>
-        <el-button class="btn" v-throttle> 节流按钮--间隔{{ delay }}s </el-button>
+        <el-button class="btn" v-throttle> 节流按钮--间隔&nbsp;<i style="color: red;font-size: 1.2em;">{{ delay }}</i>&nbsp;s </el-button>
       </template>
     </el-input>
   </div>
@@ -21,7 +21,7 @@ const delay = ref<number>(1)
 
 const msg = () => {
   // 防止自动执行
-  return ElMessage({ type: "success", message: "节流成功！" })
+  return ElMessage({ type: "success", message: "节流成功！🎉🎉🎉" })
 }
 
 const throttle = function (fn: Function, delay: number = 1000) {

@@ -135,6 +135,24 @@ export default {
                 meta: {
                   title: '节流'
                 }
+              },
+              {
+                path: '/directives/lazyImg',
+                name: 'lazyImg',
+                component: '/directives/lazyImg/index',
+                meta: {
+                  icon: 'Cherry',
+                  title: '懒加载'
+                }
+              },
+              {
+                path: '/directives/cancelreq',
+                name: 'cancelreq',
+                component: '/directives/cancelreq/index',
+                meta: {
+                  icon: 'Cherry',
+                  title: '重复请求'
+                }
               }
             ]
           }],

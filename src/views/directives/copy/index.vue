@@ -73,7 +73,7 @@ function handleClick(this:any) {
   
 	ElMessage({
 		type: "success",
-		message: "复制成功！"
+		message: "复制成功！🎉🎉🎉"
 	});
 }
 

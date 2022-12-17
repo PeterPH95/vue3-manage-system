@@ -15,7 +15,7 @@ const canceler = new AxiosCanceler();
 type Options = {
   url: string,
   method: string,
-  data: any,
+  data?: any,
   mock?: boolean,
   params?: object
 }

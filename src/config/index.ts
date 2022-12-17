@@ -25,6 +25,7 @@ const EnvConfig: Mode = {
   development: {
     baseApi: '/api',
     // 下面可以使用在线mock的方式：https://www.fastmock.site/#/
+    // 账号：peterpapi，密码：654321
     mockApi: 'https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api'
   },
   test: {
