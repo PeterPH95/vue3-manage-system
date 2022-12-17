@@ -1,37 +1,39 @@
 <template>
-  <el-menu
-    default-active="1"
-    class="el-menu-vertical-demo"
-    :collapse="globalStore.isCollapse"
-  >
+  <div class="menu" :style="{ width: isCollapse ? '60px' : '210px' }">
     <!-- 标题 -->
-    <h1>{{ globalStore.isCollapse ? '后台':'后台管理系统'}}</h1>
-    <el-scrollbar style="overflow-x: hidden;">
-      <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.path"  @click="clickMenu(item)">
-      <el-icon>
-        <component :is="components[item.meta.icon]"></component>
-      </el-icon>
-      <template #title>
-        {{item.meta.title}}
-      </template>
-      </el-menu-item>
-      <el-sub-menu :index="item.meta.title" v-for="item in hasChildren()" :key="item.path">
-        <template #title>
+    <div class="logo flx-center">
+      <img src="@/assets/images/logo.svg" alt="logo" />
+      <span v-show="!isCollapse">后台管理系统</span>
+    </div>
+    <el-scrollbar>
+      <el-menu default-active="1" :collapse="isCollapse">
+        <el-menu-item :index="item.path" v-for="item in hasNoChildren()" :key="item.path" @click="clickMenu(item)">
           <el-icon>
             <component :is="components[item.meta.icon]"></component>
           </el-icon>
-          <span>{{item.meta.title}}</span>
-        </template>
-        <!-- 子菜单 -->
-          <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="item.meta.title"  @click="clickMenu(subItem)">
+          <template #title>
+            {{ item.meta.title }}
+          </template>
+        </el-menu-item>
+        <el-sub-menu :index="item.meta.title" v-for="item in hasChildren()" :key="item.path">
+          <template #title>
+            <el-icon>
+              <component :is="components[item.meta.icon]"></component>
+            </el-icon>
+            <span>{{ item.meta.title }}</span>
+          </template>
+          <!-- 子菜单 -->
+          <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="item.meta.title"
+            @click="clickMenu(subItem)">
             <el-icon>
               <component :is="components[subItem.meta.icon]"></component>
             </el-icon>
-            {{subItem.meta.title}}
+            {{ subItem.meta.title }}
           </el-menu-item>
-      </el-sub-menu>
+        </el-sub-menu>
+      </el-menu>
     </el-scrollbar>
-  </el-menu>
+  </div>
 </template>
 
 <script lang='ts' setup>
@@ -43,7 +45,7 @@ import { onBeforeMount, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const components = {
-  'HomeFilled':HomeFilled,
+  'HomeFilled': HomeFilled,
   'Avatar': Avatar,
   'Menu': Menu,
   'Postcard': Postcard,
@@ -62,40 +64,65 @@ const authStore = useAuthStore();
 const globalStore = useGlobalStore();
 
 // 计算属性而不是响应式
-const menuList = computed(() => authStore.authMenuList)
+const menuList = computed(() => authStore.authMenuList);
+const isCollapse = computed(() => globalStore.isCollapse);
 
-const hasNoChildren = function(): Menu[] {
+const hasNoChildren = function (): Menu[] {
   return menuList.value.filter(item => !item.children);
 }
 
-const hasChildren = function(): Menu[] {
+const hasChildren = function (): Menu[] {
   return menuList.value.filter(item => item.children)
 }
 
-const clickMenu = function(params: Menu): void {
+const clickMenu = function (params: Menu): void {
   // console.log(params);
-  tabStore.addTabs({title: params.meta.title, path: params.path, icon: params.meta.icon})
+  tabStore.addTabs({ title: params.meta.title, path: params.path, icon: params.meta.icon })
   router.push(params.path);
 }
 </script>
 
 <style lang="less" scoped>
-.el-menu {
-  // 撑开侧边栏,尽量使用%，少用vh
+.menu {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  h1 {
-    height: 60px;
-    line-height: 60px;
-    font-size: 20px;
-    text-align: center;
-    font-family: "幼圆";
-    font-weight: bold;
-    color: #fff;
-    background-color: #545c64;
-  }
-}
+  transition: all 0.3s ease;
 
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  .el-scrollbar {
+    height: calc(100% - 60px);
+
+    .el-menu {
+      overflow-x: hidden;
+      border-right: none;
+    }
+  }
+
+  .flx-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo {
+    box-sizing: border-box;
+    height: 60px;
+    // border-bottom: 1px solid #282a35;
+    background-color: #545c64;
+    border-right: 1px solid var(--el-border-color) ;
+
+    span {
+      font-size: 21.5px;
+      font-weight: bold;
+      color: #dadada;
+      white-space: nowrap;
+    }
+
+    img {
+      width: 28px;
+      object-fit: contain;
+      margin-right: 6px;
+    }
+  }
 }
 </style>
