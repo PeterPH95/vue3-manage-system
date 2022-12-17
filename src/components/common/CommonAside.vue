@@ -84,17 +84,33 @@ const clickMenu = function (params: Menu): void {
 
 <style lang="less" scoped>
 .menu {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   transition: all 0.3s ease;
 
   .el-scrollbar {
+    // 动态去掉头部标题
     height: calc(100% - 60px);
 
     .el-menu {
       overflow-x: hidden;
       border-right: none;
+
+      .el-menu-item {
+        &.is-active {
+          background: #eee;
+
+          // 伪元素实现菜单选中效果
+          &::before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            content: "";
+            background: var(--el-color-primary);
+          }
+        }
+      }
     }
   }
 
@@ -109,7 +125,7 @@ const clickMenu = function (params: Menu): void {
     height: 60px;
     // border-bottom: 1px solid #282a35;
     background-color: #545c64;
-    border-right: 1px solid var(--el-border-color) ;
+    border-right: 1px solid var(--el-border-color);
 
     span {
       font-size: 21.5px;
@@ -120,7 +136,7 @@ const clickMenu = function (params: Menu): void {
 
     img {
       width: 28px;
-      object-fit: contain;
+      // object-fit: contain;
       margin-right: 6px;
     }
   }

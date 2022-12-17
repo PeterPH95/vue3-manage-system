@@ -50,17 +50,5 @@ const vWaterMarker = {
 </script>
 
 <style lang="less" scoped>
-.content-box {
-  text-align: center;
-  background-color: #fff;
-  height: 100%;
-  .text {
-    font-size: 20px;
-    padding: 5px 0;
-    font-family: '幼圆';
-    font-weight: bold;
-    background-color: #545c64;
-    color: #fff;
-  }
-}
+@import '../common.less';
 </style>

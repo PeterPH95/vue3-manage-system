@@ -52,20 +52,11 @@ const vDraggable = {
 </script>
 
 <style lang="less" scoped>
+@import '../common.less';
+
 .content-box {
 	position: relative;
-  text-align: center;
-  background-color: #fff;
-  height: 100%;
-  border: 1px solid #545c64;
-  .text {
-    font-size: 20px;
-    padding: 5px 0;
-    font-family: '幼圆';
-    font-weight: bold;
-    background-color: #545c64;
-    color: #fff;
-  }
+  
 	.drag-box {
 		position: absolute;
 		top: 100px;

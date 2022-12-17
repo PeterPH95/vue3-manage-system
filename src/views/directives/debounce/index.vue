@@ -59,20 +59,10 @@ const vDebounce = {
 </script>
 
 <style lang="less" scoped>
-.content-box {
-  text-align: center;
-  background-color: #fff;
-  height: 100%;
-  position: relative;
+@import '../common.less';
 
-  .text {
-    font-size: 20px;
-    padding: 5px 0;
-    font-family: '幼圆';
-    font-weight: bold;
-    background-color: #545c64;
-    color: #fff;
-  }
+.content-box {
+  position: relative;
   .input {
     position: absolute;
     left: 50%;

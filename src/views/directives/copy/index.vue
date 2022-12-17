@@ -80,19 +80,10 @@ function handleClick(this:any) {
 </script>
 
 <style lang="less" scoped>
+@import '../common.less';
+
 .content-box {
-  text-align: center;
-  height: 100%;
-  background-color: #fff;
   position: relative;
-  .text {
-    font-size: 20px;
-    padding: 5px 0;
-    font-family: '幼圆';
-    font-weight: bold;
-    background-color: #545c64;
-    color: #fff;
-  }
   .box-content {
     position: absolute;
     left: 50%;

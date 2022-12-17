@@ -47,20 +47,13 @@ const vLazyImg = {
 </script>
 
 <style lang="less" scoped>
+@import '../common.less';
+
 .content-box {
   background-color: #fff;
   text-align: center;
   position: relative;
   height: 2000px;
-
-  .text {
-    font-size: 20px;
-    padding: 5px 0;
-    font-family: '幼圆';
-    font-weight: bold;
-    background-color: #545c64;
-    color: #fff;
-  }
 
   .img-container {
     position: absolute;
