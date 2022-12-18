@@ -117,8 +117,7 @@ function changeBgColor() {
 // 折叠菜单栏
 function handleMenu() {
   globalStore.collapseMenu()
-  console.log(globalStore.isCollapse);
-  
+  // console.log(globalStore.isCollapse);
 }
 
 // 静态资源打包
