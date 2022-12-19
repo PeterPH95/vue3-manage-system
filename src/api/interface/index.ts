@@ -17,7 +17,9 @@ export namespace Login {
 
 // 用户列表
 export interface User {
+  guid: string;
   id: string;
+  age: number;
   name: string;
   gender: 0 | 1;
   date: string;

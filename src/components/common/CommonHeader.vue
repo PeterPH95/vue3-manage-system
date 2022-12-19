@@ -1,9 +1,10 @@
 <template>
   <div class="header-container">
     <div class="l-content">
-      <el-button @click="handleMenu">
-        <el-icon><Menu /></el-icon>
-      </el-button>
+      <el-icon @click="handleMenu" class="collapseIcon" >
+        <component v-if="isCollapse" :is="components['Fold']"></component>
+        <component v-else :is="components['Expand']"></component>
+      </el-icon>
       <div class="bread">
         <el-breadcrumb :separator-icon="ArrowRight">
           <el-breadcrumb-item :to="{ path: '/home' }" key="/home" v-if="tabLists[0].meta.title !== '首页'">
@@ -34,23 +35,6 @@
           <img src="@/assets/images/moon.svg" class="icon" v-else>
         </button>
       </div>
-      <!-- 语言选择 -->
-      <div class="langeuage">
-        <el-dropdown @command="handleCommand">
-          <span class="el-dropdown-link">
-            选择语言
-            <el-icon class="el-icon--right">
-              <ArrowDown />
-            </el-icon>
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="a">简体中文</el-dropdown-item>
-              <el-dropdown-item command="b">English</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
       <!-- 用户信息 -->
       <div class="user">
         <el-dropdown @command="handleExit">
@@ -75,7 +59,7 @@ import { useGlobalStore } from "@/stores";
 import { useAuthStore } from "@/stores/modules/auth";
 import { useRouter, useRoute } from 'vue-router';
 import { resetRouter } from "@/router";
-import { HomeFilled, Avatar, Menu, Postcard, Briefcase, Stamp, Apple, Orange, Grape, Watermelon, Cherry, ArrowDown, ArrowRight } from "@element-plus/icons-vue";
+import { HomeFilled, Avatar, Menu, Postcard, Briefcase, Stamp, Apple, Orange, Grape, Watermelon, Cherry, ArrowDown, ArrowRight,Fold,Expand } from "@element-plus/icons-vue";
 import { computed, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 
@@ -92,6 +76,8 @@ const components = {
   'Grape': Grape,
   'Watermelon': Watermelon,
   'Cherry': Cherry,
+  'Fold': Fold, 
+  'Expand': Expand 
 }
 
 const router = useRouter();
@@ -114,6 +100,9 @@ function changeBgColor() {
   console.log(globalStore.bg);
 }
 
+// 菜单折叠状态
+const isCollapse = computed(() => globalStore.isCollapse);
+
 // 折叠菜单栏
 function handleMenu() {
   globalStore.collapseMenu()
@@ -125,10 +114,6 @@ function getImageUrl(name:string) {
   const imgUrl = new URL(`../../assets/images/${name}.png`, import.meta.url).href
   return imgUrl;
 }
-
-const handleCommand = (command: string | number | object) => {
-  console.log(`click on item ${command}`);
-};
 
 // 
 const handleExit = (command: string | number | object) => {
@@ -174,8 +159,15 @@ const handleExit = (command: string | number | object) => {
 
   .l-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+
+    .collapseIcon {
+      font-size: 22px;
+      color: #f3f5f5cb;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
 
     .el-breadcrumb {
       margin-left: 20px;
@@ -212,14 +204,8 @@ const handleExit = (command: string | number | object) => {
       }
     }
 
-    .langeuage {
-      margin: 5px 20px 0 20px;
-      .el-dropdown-link {
-        color: #c9c5c5;
-      }
-    }
-
     .user {
+      margin-left: 20px;
       .el-dropdown-link {
         img {
           height: 40px;
