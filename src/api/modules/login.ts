@@ -7,7 +7,7 @@ export const loginApi = (params: any) => {
       url: '/login',
       method: 'post',
       data: params,
-      mock: true
+      mock: false
     })
 }
 
@@ -17,6 +17,6 @@ export const menuListApi = (params?: object) => {
     url: '/permission/getMenu',
     method: 'get',
     data: params,
-    mock: true
+    mock: false
   })
 }

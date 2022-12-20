@@ -14,12 +14,12 @@ type Api = {
 type Mode = {
   development: Api,
   test: Api,
-  prod: Api
+  production: Api
 }
 
 // https://cn.vitejs.dev/guide/env-and-mode.html
 // vite 暴露的获取环境变量的方法
-const env: keyof Mode = (import.meta.env.MODE as keyof Mode) || 'prod'
+const env: keyof Mode = (import.meta.env.NODE_ENV as keyof Mode) || 'production'
 
 const EnvConfig: Mode = {
   development: {
@@ -32,16 +32,16 @@ const EnvConfig: Mode = {
     baseApi: '/api',
     mockApi: 'https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api'
   },
-  prod: {
+  production: {
     baseApi: '/api',
     mockApi: 'https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api'
-  },
+  }
 }
 
 export default {
   env,
   // mock 的总开关，本地mock为false，远程mock为 true
-  mock: true,
+  mock: false,
   // 报错
   ...EnvConfig[env]
 }

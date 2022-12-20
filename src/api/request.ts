@@ -112,7 +112,7 @@ function request(options:Options) {
     isMock = options.mock
   }
   // 线上环境默认设置
-  if (config.env === 'prod') {
+  if (config.env === 'production') {
     service.defaults.baseURL = config.baseApi
   }else {
     service.defaults.baseURL = isMock ? config.mockApi : config.baseApi

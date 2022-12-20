@@ -1,6 +1,3 @@
-import type { Menu } from '@/interface/routeType';
-
-
 /* tabsMenuProps */
 export interface TabsMenuProps {
 	title: string;

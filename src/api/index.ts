@@ -10,7 +10,7 @@ export default {
       url: '/home/getData',
       method: 'get',
       data: params,
-      mock: true
+      mock: false
     })
   },
 
@@ -20,7 +20,7 @@ export default {
       url: '/assembly/getTest',
       method: 'get',
       data: params,
-      mock: true
+      mock: false
     })
   }
 }

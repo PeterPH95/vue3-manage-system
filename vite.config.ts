@@ -10,6 +10,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // 设置部署的 repo https://cn.vitejs.dev/guide/static-deploy.html#github-pages
+  base: '/vue3-manage-system/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -20,7 +22,15 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 9527,
     open: false,
-    cors: true
+    cors: true,
+    // 跨域代理
+    proxy: {
+      "/api": {
+        target: "https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, "")
+      }
+    }
   },
   plugins: [
     vue(),
