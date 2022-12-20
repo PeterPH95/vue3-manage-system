@@ -33,7 +33,7 @@ const EnvConfig: Mode = {
     mockApi: 'https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api'
   },
   production: {
-    baseApi: '/api',
+    baseApi: 'https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api',
     mockApi: 'https://mock.mengxuegu.com/mock/6391da9d93a67b5f10669a02/api'
   }
 }
