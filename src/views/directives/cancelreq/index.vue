@@ -10,16 +10,19 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, ref } from 'vue';
+import { ref } from 'vue';
+import { getUserList } from "@/api/modules/user";
 
 let data = ref<string>("")
 
-const { proxy } = getCurrentInstance() as any
-
 const get = async () => {
-  let res = await proxy.$api.getData();
+  try {
+    let res = await getUserList();
+    data.value = res.data.msg;
+  } catch (error) {
+    console.log('频繁请求，请稍后再试！');
+  }
   // console.log(res);
-  data.value = res.msg;
 }
 
 </script>
