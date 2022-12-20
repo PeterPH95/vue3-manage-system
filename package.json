@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "deploy": "deploy.sh"
+    "deploy": "bash deploy.sh"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
