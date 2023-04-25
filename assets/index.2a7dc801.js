@@ -1,1 +1,0 @@
-import{aw as e,a as c,c as n}from"./index.01e26784.js";const r={};function t(a,o){return c(),n("h1",null,"\u8FD9\u662F\u6309\u94AE\u6743\u9650\u7EC4\u4EF6")}const _=e(r,[["render",t]]);export{_ as default};
