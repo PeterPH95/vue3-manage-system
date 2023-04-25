@@ -35,7 +35,7 @@ const showError = (index: number) => {
 const vLazyImg = {
   mounted(el: HTMLImageElement, binding: DirectiveBinding) {
     const observer = new IntersectionObserver(([{isIntersecting}]) => {
-      if (isIntersecting) {
+      if (isIntersecting) {// 图片出现在视口时
         el.src = binding.value;
         observer.unobserve(el);
       }      

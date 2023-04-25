@@ -11,6 +11,7 @@
             <div>
               <input 
                 type="text" 
+                class="new-todo"
                 v-focus placeholder="请输入待办事项" 
                 v-model="todo.content"
                 @keydown.enter="addTodo(todo)"
@@ -19,9 +20,32 @@
             </div>
           </div>
           <ul class="todos">
-            <li class="todo-container" v-for="item in todoLists" :key="item.id">
+            <li class="todo-container" 
+              v-for="item in todoLists" 
+              :key="item.id"
+              @dblclick="editTodo(item)"
+            >
               <input class="mark" type="checkbox" v-model="item.fulfill">
-              <p class="todo-content" :class="{todofinish: item.fulfill}">{{item.content}}</p>
+              <!-- 双击显示的编辑框 -->
+              <input 
+                class="edit"
+                type="text"
+                v-model="editedTodo.content"
+                v-if="item.id === editedTodo.id"
+                v-focus
+                @blur="doneEdit(editedTodo)"
+                @keyup.enter="doneEdit(editedTodo)"
+                @keyup.esc="cancelEdit()"
+              />
+              <!-- 双击隐藏 -->
+              <label
+                class="todo-content" 
+                v-else
+                :class="{todofinish: item.fulfill}" 
+              >
+                {{item.content}}
+              </label>
+
               <button class="delete" @click="delTodo(item.id)">删除</button>
             </li>
           </ul>
@@ -53,8 +77,16 @@ import TodoChart from './TodoChart.vue';
 const todoStore = useTodoStore();
 const todoLists = computed(() => todoStore.todoList);
 
-// 初始化todo
+// 初始化newtodo
 const todo = ref<Todo>({
+  id: '',
+  content: '',
+  day: 0,
+  fulfill: false
+})
+
+// 双击编辑的todo
+const editedTodo = ref<Todo>({
   id: '',
   content: '',
   day: 0,
@@ -112,6 +144,29 @@ const vFocus = {
     el.focus();
   }
 }
+
+// 双击显示编辑框
+function editTodo(todo: Todo){
+  editedTodo.value = {...todo}
+}
+
+// 将编辑的内容更新到todolist
+function doneEdit(todo: Todo){
+  todoStore.editTodo(todo)
+  // 重置编辑的内容
+  cancelEdit()
+}
+
+// 重置或取消编辑
+function cancelEdit() {
+  editedTodo.value = {
+    id: '',
+    content: '',
+    day: 0,
+    fulfill: false
+  }
+}
+
 </script>
 
 <style lang="less" scoped>

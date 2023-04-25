@@ -46,6 +46,16 @@ export const useTodoStore = defineStore(
             this.todoList.push(item);
           }
         })
+      },
+      // 编辑某项todo
+      editTodo(todo: Todo){
+        this.todoList.forEach(
+          item => {
+            if (todo.id === item.id) {
+              item.content = todo.content
+            }
+          }
+        )
       }
     },
     // 持久化

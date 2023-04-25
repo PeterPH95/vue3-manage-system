@@ -6,7 +6,7 @@ import qs from 'qs';
  * 需求：取消重复的请求
  * 
  * 思路：
- * 1.将每个请求的参数做一个唯一表示，同时请求对应的cancel方法，存入map中
+ * 1.将每个请求的参数做一个唯一标识，同时请求对应的cancel方法，存入map中
  * 2.在请求拦截器中判断 map 是否有该请求，有则取消先前的请求，保留当前的；
  * 3.在响应拦截器中通过config的标识，在map中清除当前已经成功响应的请求
  * 
@@ -55,7 +55,7 @@ export class AxiosCanceler {
     const key = generateReqKey(config);
     // 判断之前是否存在与当前重复的请求
     if (pendingReqMap.has(key)) {
-      // 有则取消当前的请求
+      // 有则取消先前的请求
       const cancel = pendingReqMap.get(key);
       cancel && cancel(key);
       pendingReqMap.delete(key);
