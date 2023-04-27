@@ -7,30 +7,41 @@
 <script lang="ts" setup>
 import * as echarts from 'echarts';
 import { ref } from '@vue/reactivity';
-import { nextTick, onMounted, onUnmounted, watch } from 'vue';
+import { computed, nextTick,onMounted, onUnmounted, watch } from 'vue';
 import { useTodoStore } from "@/stores/modules/todo";
 
 const todoStore = useTodoStore();
+
+// 统计一周的任务
+const allTodos = computed(()=>{ 
+  let [todosList, fulfillList] = todoStore.countAlltodos;
+  todosList.unshift('未完成');
+  fulfillList.unshift('已完成');
+  return [todosList, fulfillList]
+ })
+
 
 const charts = ref();
 let statCharts: echarts.ECharts;
 
 // 完成的事件
-const fulfillList = ['已完成', 0, 0, 0, 0, 0, 0, 0];
-const todosList = ['未完成', 0, 0, 0, 0, 0, 0, 0];
+let fulfillList:any = [];
+let todosList:any = [];
 
 // 获取周几
 const list = ['day', '周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-const day = new Date().getDay() + 1;
+const day = computed(()=>{
+  return todoStore.day + 1
+});
 // 更新初始化数据
 updateTodos();
 
-// 更新完成和未完成数量
+// 更新今日完成和未完成数量
 function updateTodos() {
-  let fulfill:number = todoStore.todoFulfillList.length;
-  let todos:number = todoStore.todoList.filter(item => !item.fulfill).length;
-  fulfillList[day] = fulfill;
-  todosList[day] = todos;
+  fulfillList = allTodos.value[1];
+  // 在修改完成状态的时候触发
+  fulfillList[day.value] = todoStore.todoFulfillList.length;
+  todosList = allTodos.value[0];
 };
 
 // 更新图表数据
@@ -128,19 +139,19 @@ function renderChart() {
         emphasis: {
           label: {
             show: true,
-            fontSize: '18',
+            fontSize: '14',
             fontWeight: 'bold'
           }
         },
         label: {
           show: false,
           position: 'center',
-          formatter: '{b}: {@' + list[day] + '}'
+          formatter: `${list[day.value]}{b}: {@` + list[day.value] + '}'
         },
         encode: {
           itemName: 'day',
-          value: `${list[day]}`,
-          tooltip: `${list[day]}`
+          value: `${list[day.value]}`,
+          tooltip: `${list[day.value]}`
         }
       }
     ]

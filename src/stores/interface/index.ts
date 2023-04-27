@@ -30,7 +30,21 @@ export interface Todo {
   fulfill: boolean;
 }
 
+export type Range = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 
+
 export interface TodosState {
-	todoList: Todo[];
+	todayTodoList: Todo[];
   todoFulfillList: Todo[];
+  allTodos: weekTodosState;
+  day: Range
+}
+
+export interface weekTodosState {
+  sunday: Todo[],
+  monday: Todo[],
+  tuesday: Todo[],
+  wednesday: Todo[],
+  thursday: Todo[],
+  friday: Todo[],
+  saturday: Todo[]
 }

@@ -9,6 +9,7 @@
           <div class="todo-head">
             <h1>待办事件</h1>
             <div>
+              
               <input 
                 type="text" 
                 class="new-todo"
@@ -24,6 +25,7 @@
               v-for="item in todoLists" 
               :key="item.id"
               @dblclick="editTodo(item)"
+              draggable="true"
             >
               <input class="mark" type="checkbox" v-model="item.fulfill">
               <!-- 双击显示的编辑框 -->
@@ -50,9 +52,14 @@
             </li>
           </ul>
           <div class="todo-bottom">
-            <button class="button" @click="finishMark()">完成</button>
-            <button class="button" @click="clearMark()">移除</button>
-            <button class="button" @click="showAll()">显示全部</button>
+            <el-select v-model="theDay" placeholder="请选择周几" style="width: 30%;margin-right: 5px;"  @change="selectDay">
+              <el-option
+                v-for="item in weekDay"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </div>
         </div>
       </el-col>
@@ -68,14 +75,14 @@
 
 <script lang="ts" setup>
 import { useTodoStore } from "@/stores/modules/todo";
-import type { Todo } from "@/stores/interface/index";
+import type { Todo, Range } from "@/stores/interface/index";
 import { nanoid } from 'nanoid';
-import { computed, ref, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { ElMessage } from "element-plus";
 import TodoChart from './TodoChart.vue';
 
 const todoStore = useTodoStore();
-const todoLists = computed(() => todoStore.todoList);
+const todoLists = computed(() => todoStore.todoListGet);
 
 // 初始化newtodo
 const todo = ref<Todo>({
@@ -92,6 +99,43 @@ const editedTodo = ref<Todo>({
   day: 0,
   fulfill: false
 })
+
+// 周几信息
+const weekDay = reactive(
+  [
+    {
+      value: 0,
+      label: '周日'
+    }, {
+      value: 1,
+      label: '周一'
+    }, {
+      value: 2,
+      label: '周二'
+    }, {
+      value: 3,
+      label: '周三'
+    }, {
+      value: 4,
+      label: '周四'
+    }, {
+      value: 5,
+      label: '周五'
+    }, {
+      value: 6,
+      label: '周六'
+    }
+  ]
+)
+
+// 选择的时间，默认今天
+const theDay = ref('')
+
+// 挑选触发的函数
+function selectDay(val: Range) {
+  todoStore.selectDay(val);
+}
+
 
 
 // 添加一个 todo
@@ -116,21 +160,6 @@ function addTodo(todo: Todo){
 function delTodo(id:string) {
   todoStore.removeTodo(id);
   ElMessage.success("删除成功！");
-}
-
-// 完成mark的所有 todos，并保存
-function finishMark() {
-  todoStore.updateStore();
-}
-
-// 移除选中的 todos
-function clearMark() {
-  todoStore.clearFulfill();
-}
-
-// 显示所有待办
-function showAll() {
-  todoStore.showAllTodos();
 }
 
 // 检测单个事项的完成情况
