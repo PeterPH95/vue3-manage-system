@@ -1,1 +1,0 @@
-import{aw as c,a,c as s,au as o,av as t,j as _}from"./index.7303a6e0.js";const n={},d=e=>(o("data-v-9a1f76c2"),e=e(),t(),e),r={class:"card content-box"},i=d(()=>_("iframe",{src:"https://cn.bing.com/",frameborder:"0",class:"full-iframe"},null,-1)),p=[i];function f(e,l){return a(),s("div",r,p)}const m=c(n,[["render",f],["__scopeId","data-v-9a1f76c2"]]);export{m as default};

@@ -1,0 +1,1 @@
+import{b4 as s}from"./index.be336d3b.js";const i=s("TabState",{state:()=>({tabList:[{title:"\u9996\u9875",path:"/home",icon:"HomeFilled"}]}),getters:{},actions:{addTabs(t){this.tabList.every(e=>e.path!==t.path)&&this.tabList.push(t)},clearTabs(){this.tabList=[{title:"\u9996\u9875",path:"/home",icon:"HomeFilled"}]}},persist:!0});export{i as u};
